@@ -45,3 +45,8 @@ Thumbs.db
 /mochi-android/
 /mochi-releases/
 /mochi-open-source-review/
+# Local signing and platform build state.
+.signing/
+.gradle/
+.build/
+local.properties
