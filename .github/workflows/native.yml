@@ -1,0 +1,85 @@
+name: Native Rust
+
+on:
+  push:
+    paths:
+      - "rust/**"
+      - "community/**"
+      - "shared/**"
+      - "tests/fixtures/**"
+      - "scripts/generate-icons.mjs"
+      - "public/logo.svg"
+      - ".github/workflows/native.yml"
+  pull_request:
+    paths:
+      - "rust/**"
+      - "community/**"
+      - "shared/**"
+      - "tests/fixtures/**"
+      - "scripts/generate-icons.mjs"
+      - "public/logo.svg"
+      - ".github/workflows/native.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node for module-size checks
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check native module boundaries
+        run: |
+          node tools/check-module-size.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node --test tools/check-module-size.test.cjs
+
+      - name: Install Rust 1.88
+        uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          components: rustfmt, clippy
+
+      - name: Check Rust formatting
+        run: cargo fmt --all -- --check
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('rust/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Check all targets and features with Clippy
+        run: cargo clippy --workspace --all-targets --all-features --locked
+
+      - name: Test documentation examples
+        run: cargo test --workspace --doc --all-features --locked
+
+      - name: Build API documentation
+        run: cargo doc --workspace --all-features --no-deps --locked
+
+      - name: Run workspace tests
+        run: cargo test --workspace --all-targets --all-features --locked
+
+      - name: Test independent community release packaging
+        run: python -m unittest discover -s ../community/tools -p test_package_release.py -v
+
+      - name: Build release binary
+        run: cargo build --release --locked -p mochi-app
+      - name: Build browser clipper native host
+        run: cargo build --release --locked -p mochi-core --bin mochi-clipper-host
+      - name: Build community package installer
+        run: cargo build --release --locked -p mochi-core --bin mochi-community

@@ -1,0 +1,1277 @@
+[
+  {
+    "nativeKey": "app.general.toastDuration",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "toastDuration"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.appearance.themeMode",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "mode"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.appearance.accentColor",
+    "store": "theme-storage",
+    "path": ["state", "accentColor"],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.appearance.navigationBackground",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "globalNavigationBackground"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.appearance.sidebarBackground",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "workspaceSidebarBackground"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.appearance.mainBackground",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "workspaceMainBackground"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.appearance.aiPanelBackground",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "aiAssistantBackground"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.appearance.areaBackgroundOpacity",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "areaBackgroundOpacity"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.background.enabled",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "enabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.background.imageOpacity",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "opacity"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.background.scale",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "scale"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.background.uiOpacity",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "uiOpacity"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.background.positionX",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "position",
+      "x"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.background.positionY",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "position",
+      "y"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.navigation.width",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "navigationWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.navigation.collapsed",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "navigationCollapsed"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.navigation.itemOrder",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "navigationItemOrder"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.navigation.hiddenItems",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "navigationHiddenItems"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.sidebar.width",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "sidebarWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.paddingTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "sidebarPaddingTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.paddingBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "sidebarPaddingBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.fileTreeIndent",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeIndent"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.showUnreadIndicators",
+    "store": "workspace-storage",
+    "path": ["state", "showUnreadIndicators"],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.sidebar.fileTreeItemSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeItemSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.fileTreeItemSpacing",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeItemSpacing"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.showFileExtensions",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "showFileExtensions"
+    ],
+    "type": "boolean"
+  },
+    {
+      "nativeKey": "app.sidebar.showFavoriteParents",
+      "store": "workspace-storage",
+      "path": [
+        "state",
+        "showFavoriteParents"
+      ],
+      "type": "boolean"
+    },
+    {
+      "nativeKey": "app.sidebar.hideDotFiles",
+      "store": "workspace-storage",
+      "path": [
+        "state",
+        "hideDotFilesInTree"
+      ],
+      "type": "boolean"
+    },
+    {
+      "nativeKey": "app.sidebar.hiddenTreePatterns",
+      "store": "workspace-storage",
+      "path": [
+        "state",
+        "sidebarHiddenTreePatterns"
+      ],
+      "type": "string"
+    },
+  {
+    "nativeKey": "app.sidebar.showTreeGuides",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "showFileTreeGuides"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.sidebar.treeGuideColor",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeGuideColor"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.sidebar.treeGuideWidth",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeGuideWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.treeGuideStyle",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeGuideStyle"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.sidebar.treeGuideHorizontalGap",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "fileTreeGuideHorizontalGap"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.sidebar.sortOrder",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "sortOrder"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.tabs.openFileBehavior",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "openFileBehavior"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.tabs.newTabPosition",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "newTabPosition"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.tabs.showCloseButtons",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "showTabCloseButtons"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.tabs.compact",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "compactTabBar"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editor.showDocumentLinks",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "showDocumentLinks"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editorLayout.paddingLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorPaddingLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.editorLayout.paddingRight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorPaddingRight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.editorLayout.alignment",
+    "store": "workspace-storage",
+    "path": ["state", "editorAlignment"],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.editorLayout.maxWidth",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorMaxWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.editorLayout.cardEnabled",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorCardEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editorLayout.cardMargin",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorCardMargin"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.editor.slashMenuEnabled",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "slashMenuEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editor.simpleDocumentMode",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "simpleDocumentMode"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editorLayout.titleMarginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "titleMarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.editorLayout.liveLineSource",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "liveLineSourceEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editorLayout.annotationsVisible",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "annotationsVisible"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.editorLayout.aiPanelWidth",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "aiPanelWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.editorLayout.splitRatio",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "splitEditorRatio"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.typography.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorFontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.typography.lineHeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "editorLineHeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.typography.paragraphSpacing",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "paragraphSpacing"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.typography.blockSpacing",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "blockSpacing"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h1.underline",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h1Underline"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.headings.h1.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h1FontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h1.fontWeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h1FontWeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h1.marginTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h1MarginTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h1.marginBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h1MarginBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h1.marginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h1MarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h2.underline",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h2Underline"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.headings.h2.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h2FontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h2.fontWeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h2FontWeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h2.marginTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h2MarginTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h2.marginBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h2MarginBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h2.marginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h2MarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h3.underline",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h3Underline"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.headings.h3.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h3FontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h3.fontWeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h3FontWeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h3.marginTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h3MarginTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h3.marginBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h3MarginBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h3.marginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h3MarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h4.underline",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h4Underline"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.headings.h4.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h4FontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h4.fontWeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h4FontWeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h4.marginTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h4MarginTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h4.marginBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h4MarginBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h4.marginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h4MarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h5.underline",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h5Underline"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.headings.h5.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h5FontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h5.fontWeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h5FontWeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h5.marginTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h5MarginTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h5.marginBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h5MarginBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h5.marginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h5MarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h6.underline",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h6Underline"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.headings.h6.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h6FontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h6.fontWeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h6FontWeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h6.marginTop",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h6MarginTop"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h6.marginBottom",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h6MarginBottom"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.headings.h6.marginLeft",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "h6MarginLeft"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.code.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "codeBlockFontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.code.lineHeight",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "codeBlockLineHeight"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.code.padding",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "codeBlockPadding"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.code.borderRadius",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "codeBlockBorderRadius"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.code.style",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "codeBlockStyle"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.tables.fontSize",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "tableFontSize"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.tables.cellPadding",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "tableCellPadding"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.tables.borderWidth",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "tableBorderWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.lists.indent",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "listIndent"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.lists.itemSpacing",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "listItemSpacing"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.lists.blockquotePadding",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "blockquotePadding"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.lists.blockquoteBorderWidth",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "blockquoteBorderWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.outline.width",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "outlineWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.outline.placement",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "outlinePlacement"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.outline.moveToSidebarWhenAIOpen",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "moveOutlineToSidebarWhenAIOpen"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.outline.showGuides",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "showOutlineGuides"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.outline.guideColor",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "outlineGuideColor"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.outline.guideWidth",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "outlineGuideWidth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.outline.guideStyle",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "outlineGuideStyle"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.outline.guideHorizontalGap",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "outlineGuideHorizontalGap"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.save.autoSaveEnabled",
+    "store": "mochi-editor",
+    "path": [
+      "state",
+      "autoSaveEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.save.autoSaveDelay",
+    "store": "mochi-editor",
+    "path": [
+      "state",
+      "autoSaveDelay"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.ai.temperature",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "defaultTemperature"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.ai.maxTokens",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "defaultMaxTokens"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.ai.editApplyMode",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "editApplyMode"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.ai.requirePermissionPrompt",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "requirePermissionPrompt"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.ai.rateLimitEnabled",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "rateLimitEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.ai.maxRequestsPerMinute",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "maxRequestsPerMinute"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.ai.inlineCompletionEnabled",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "inlineCompletionEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.ai.inlineCompletionIdleDelay",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "inlineCompletionIdleDelay"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.ai.inlineCompletionMaxTokens",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "inlineCompletionMaxTokens"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.ai.inlineCompletionUseDocumentProfile",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "inlineCompletionUseDocumentProfile"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.ai.memoryAutoExtract",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "memoryAutoExtract"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.git.versionHistoryEnabled",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "versionHistoryEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.git.authorName",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "authorName"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.git.authorEmail",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "authorEmail"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "app.git.autoCommitEnabled",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "autoCommitEnabled"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.git.autoCommitInterval",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "autoCommitInterval"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "app.git.trackAIOperations",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "trackAIOperations"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.git.showVersionHistory",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "showVersionHistory"
+    ],
+    "type": "boolean"
+  },
+  {
+    "nativeKey": "app.git.maxHistoryDepth",
+    "store": "mochi-git-config",
+    "path": [
+      "state",
+      "maxHistoryDepth"
+    ],
+    "type": "number"
+  },
+  {
+    "nativeKey": "workspace.lastPath",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "workspacePath"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "sidebar.sortMode",
+    "store": "workspace-storage",
+    "path": [
+      "state",
+      "sortOrder"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "ai.currentProviderId",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "currentProviderId"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "ai.activeSessionId",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "activeSessionId"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "ai.selectedAgentId",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "selectedAgentId"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "ai.inline.provider",
+    "store": "mochi-ai",
+    "path": [
+      "state",
+      "inlineCompletionProviderId"
+    ],
+    "type": "string"
+  },
+  {
+    "nativeKey": "comments.author",
+    "store": "mochi-comment-author",
+    "path": [],
+    "type": "string"
+  },
+  {
+    "nativeKey": "background.imagePath",
+    "store": "theme-storage",
+    "path": [
+      "state",
+      "customBackground",
+      "imageUrl"
+    ],
+    "type": "string"
+  }
+]

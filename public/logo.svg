@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="logo-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFE9F5"/>
+      <stop offset="100%" stop-color="#D8EEFF"/>
+    </linearGradient>
+    <linearGradient id="logo-squid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C084FC"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="20" y="20" width="472" height="472" rx="110" fill="url(#logo-bg)"/>
+
+  <path
+    d="M256 75 C165 75 105 145 105 240 C105 320 165 360 256 360 C347 360 407 320 407 240 C407 145 347 75 256 75Z"
+    fill="url(#logo-squid)"
+  />
+
+  <ellipse cx="215" cy="230" rx="9" ry="13" fill="#FFFFFF"/>
+  <ellipse cx="297" cy="230" rx="9" ry="13" fill="#FFFFFF"/>
+
+  <path
+    d="M145 315 C115 380 180 390 215 335 C240 300 260 395 300 340 C330 305 390 370 365 315"
+    fill="none"
+    stroke="#A78BFA"
+    stroke-width="32"
+    stroke-linecap="round"
+  />
+
+  <g transform="translate(315 270) rotate(-12)">
+    <rect x="0" y="0" width="110" height="95" rx="14" fill="#FFFDF5"/>
+    <rect x="12" y="12" width="86" height="70" rx="8" fill="#FFFFFF"/>
+    <line x1="30" y1="35" x2="80" y2="35" stroke="#D4C6A5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="30" y1="55" x2="80" y2="55" stroke="#D4C6A5" stroke-width="5" stroke-linecap="round"/>
+    <line x1="30" y1="75" x2="65" y2="75" stroke="#D4C6A5" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(370 220) rotate(35)">
+    <rect width="18" height="100" rx="7" fill="#FFB36B"/>
+    <polygon points="0,0 18,0 9,-28" fill="#FFE0B2"/>
+  </g>
+
+  <ellipse cx="190" cy="140" rx="35" ry="20" fill="#FFFFFF" opacity="0.25"/>
+</svg>

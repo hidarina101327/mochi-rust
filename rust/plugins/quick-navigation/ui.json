@@ -1,0 +1,7 @@
+{
+  "kind": "shortcut-library",
+  "title": "快捷导航",
+  "storage": ".mochi/extensions-data/quick-navigation/default/data.json",
+  "actions": ["新建分组", "新建快捷方式", "导入快捷方式"],
+  "fields": ["name", "target", "arguments", "workingDirectory", "group"]
+}

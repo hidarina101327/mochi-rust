@@ -1,0 +1,155 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "base_create_records",
+      "description": "在已有 .mcb 数据表中批量创建记录；新增2条及以上记录时优先使用。一次提交 2–200 条，所有 values 和稳定 ID 先整体校验，再一次写入或生成一个待批准提案；同 ID 同内容会幂等跳过。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": ".mcb 路径；省略使用当前 .mcb"
+          },
+          "tableId": {
+            "type": "string",
+            "description": "base_get_schema 返回的数据表 ID"
+          },
+          "records": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 200,
+            "description": "要新增的记录；每项必须有 values，可选稳定 recordId",
+            "items": {
+              "type": "object",
+              "properties": {
+                "recordId": {
+                  "type": "string",
+                  "description": "可选稳定记录 ID；同 ID 同 values 重试会幂等跳过"
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "description": "字段 ID 到单元格值；选择字段存选项 ID，reference 存去重 mochi://open URL 字符串数组"
+                }
+              },
+              "required": [
+                "values"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "tableId",
+          "records"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "document_blocks_list",
+      "description": "按持久化 blockId 列出 Markdown 文档的结构化块。优先用于阅读、定位和后续修改文档内容；返回的块 ID 不是行号，文档未持久化 ID 时只报告 needsConversion，不会偷偷改写文件。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "文档路径；省略时使用当前活动文档"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "document_block_read",
+      "description": "按稳定持久化 blockId 读取一个 Markdown 块的当前文本和原文哈希。用户说某个块、某段块内容时先用此工具；未持久化 ID 的文档返回 needsConversion，绝不把行号当块 ID。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "文档路径；省略时使用当前活动文档"
+          },
+          "blockId": {
+            "type": "string",
+            "description": "document_blocks_list 返回的持久化块 ID"
+          },
+          "requestConversion": {
+            "type": "boolean",
+            "description": "文档没有持久化块 ID 时是否请求界面显示转换入口；请求不等于自动写入"
+          }
+        },
+        "required": [
+          "blockId"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "document_block_propose_edit",
+      "description": "为一个或多个指定 blockId 生成逐块待批准修改提案。每个块独立进入审批收件箱；必须携带读取到的 blockId、originalHash、oldText、newText 和 path，宿主会以当前未保存缓冲区再次校验。此工具永远不直接写文件，也不自动批准。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "文档路径；省略时使用当前活动文档"
+          },
+          "edits": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "description": "每个元素对应一个独立审批的块修改",
+            "items": {
+              "type": "object",
+              "properties": {
+                "blockId": {
+                  "type": "string",
+                  "description": "持久化块 ID，不是行号"
+                },
+                "originalHash": {
+                  "type": "string",
+                  "description": "document_block_read 返回的原文哈希"
+                },
+                "oldText": {
+                  "type": "string",
+                  "description": "document_block_read 返回的完整原文"
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "建议替换成的完整块文本"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "展示给用户的简短说明"
+                }
+              },
+              "required": [
+                "blockId",
+                "originalHash",
+                "oldText",
+                "newText"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "edits"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+]

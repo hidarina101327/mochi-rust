@@ -1,0 +1,82 @@
+{
+  "_source": {
+    "colors": "src/index.css",
+    "widths": "src/stores/workspace.ts",
+    "heights": "src/components/Layout/MainLayout.tsx (Tailwind 1 单位 = 4px)"
+  },
+  "colors": {
+    "light": {
+      "background": "#f6f7f8",
+      "foreground": "#202428",
+      "muted": "#687078",
+      "surface": "#ffffff",
+      "surface-elevated": "#ffffff",
+      "surface-muted": "#eef1f3",
+      "border": "#e7e8ea",
+      "area-navigation-default": "#f6f7f8",
+      "area-sidebar-default": "#fafafa",
+      "area-main-default": "#ffffff",
+      "area-assistant-default": "#fafafa",
+      "accent": "#22c55e",
+      "accent-hover": "#16a34a",
+      "accent-foreground": "#06150b",
+      "danger": "#dc2626",
+      "overlay": "rgba(15, 23, 42, 0.42)"
+    },
+    "dark": {
+      "background": "#121516",
+      "foreground": "#edf0f2",
+      "muted": "#a0a8af",
+      "surface": "#1b1f21",
+      "surface-elevated": "#24292c",
+      "surface-muted": "#202528",
+      "border": "#353c40",
+      "area-navigation-default": "#151819",
+      "area-sidebar-default": "#191d1f",
+      "area-main-default": "#121516",
+      "area-assistant-default": "#191d1f",
+      "accent": "#34d36b",
+      "accent-hover": "#4ade80",
+      "accent-foreground": "#06150b",
+      "danger": "#fb7185",
+      "overlay": "rgba(0, 0, 0, 0.68)"
+    }
+  },
+  "scalars": {
+    "light": {
+      "radius": "8px"
+    },
+    "dark": {
+      "radius": "8px"
+    }
+  },
+  "layout": {
+    "navigationWidth": 220,
+    "sidebarWidth": 260,
+    "aiPanelWidth": 420,
+    "splitEditorRatio": 0.5,
+    "areaBackgroundOpacity": 100,
+    "navigationCollapsedWidth": 60,
+    "titleBarHeight": 32,
+    "rightSidebarToolbarHeight": 40,
+    "splitPaneHeaderHeight": 32,
+    "resizeHandleWidth": 4,
+    "statusBarHeight": 24,
+    "tabBarHeight": 37,
+    "tabBarCompactHeight": 33,
+    "editorMaxWidth": 0,
+    "editorPaddingLeft": 24,
+    "editorPaddingRight": 24,
+    "editorPaddingTop": 32,
+    "titleBarOverlayHeight": 32,
+    "titleBarControlsWidth": 138
+  },
+  "clamps": {
+    "navigationMin": 48,
+    "navigationMax": 300,
+    "aiPanelMin": 340,
+    "aiPanelMaxFraction": 0.45,
+    "splitRatioMin": 0.2,
+    "splitRatioMax": 0.8
+  }
+}

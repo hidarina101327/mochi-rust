@@ -1,0 +1,35 @@
+[package]
+name = "mochi-app"
+description = "墨池桌面应用，支持笔记、知识整理与 AI 助手"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[features]
+default = []
+
+[lints]
+workspace = true
+
+[dependencies]
+serde.workspace = true
+mochi-core = { path = "../mochi-core" }
+mochi-blocks = { path = "../mochi-blocks" }
+anyhow.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+windows = { version = "0.62.2", features = ["Win32_Foundation", "Win32_Storage_FileSystem", "Win32_Security", "Win32_Graphics_Direct2D", "Win32_Graphics_Direct2D_Common", "Win32_Graphics_DirectWrite", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_Gdi", "Win32_Graphics_Dwm", "Win32_System_LibraryLoader", "Win32_System_Com", "Win32_System_Ole", "Win32_System_SystemServices", "Win32_Media_Speech", "Win32_UI_WindowsAndMessaging", "Win32_UI_Accessibility", "Win32_UI_Controls", "Win32_UI_Controls_Dialogs", "Win32_UI_HiDpi", "Win32_UI_Shell", "Win32_UI_Shell_Common", "Win32_UI_Input_KeyboardAndMouse", "Win32_UI_Input_Ime", "Win32_Globalization", "Win32_System_DataExchange", "Win32_System_Memory", "Win32_Graphics_Imaging", "Win32_Graphics_Imaging_D2D", "Data_Pdf", "Storage", "Storage_Streams", "Foundation", "Win32_System_Threading", "Win32_System_ProcessStatus", "Win32_System_Diagnostics_ToolHelp", "Win32_System_Registry", "Win32_System_Com_StructuredStorage", "Media_Control", "Foundation_Collections", "Win32_System_WinRT"] }
+windows-core = "0.62.2"
+windows-numerics = "0.3.1"
+regex = "1.13.1"
+scraper = "0.27"
+ego-tree = "0.11"
+pulldown-cmark = "=0.13.4"
+ratex-parser = "=0.1.14"
+ratex-layout = "=0.1.14"
+ratex-types = "=0.1.14"
+ratex-render = { version = "=0.1.14", features = ["embed-fonts"] }
+
+[build-dependencies]
+embed-resource = "=3.0.6"

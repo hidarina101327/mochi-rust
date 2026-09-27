@@ -1,0 +1,10 @@
+{
+  "kind": "learning-workspace",
+  "title": "English Lab",
+  "sections": [
+    { "title": "学习", "cards": ["学习概览", "单词训练", "今日复习", "句子听力", "听写"] },
+    { "title": "内容", "cards": ["词库中心", "内容库", "词典导入", "阅读训练"] },
+    { "title": "记录", "cards": ["学习统计", "训练历史", "本地数据库设置"] }
+  ],
+  "storage": ".mochi/extensions-data/english/default/data.db"
+}

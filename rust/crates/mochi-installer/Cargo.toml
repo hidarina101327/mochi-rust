@@ -1,0 +1,12 @@
+[package]
+name = "mochi-installer"
+description = "Mochi Native 安装包的无控制台启动器"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]

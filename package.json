@@ -1,0 +1,12 @@
+{
+  "name": "mochi-native-build",
+  "private": true,
+  "version": "1.1.0",
+  "scripts": {
+    "icons": "node scripts/generate-icons.mjs",
+    "check:native-modules": "node rust/tools/check-module-size.cjs && node --test rust/tools/check-module-size.test.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.0"
+  }
+}

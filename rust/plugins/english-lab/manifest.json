@@ -1,0 +1,18 @@
+{
+  "manifestVersion": 2,
+  "id": "english-lab",
+  "name": "English Lab",
+  "version": "2.0.0",
+  "description": "原生英语学习空间：词库、复习计划与学习统计。",
+  "icon": "Languages",
+  "permissions": ["plugin-storage", "workspace-read"],
+  "contributions": {
+    "navigation": true,
+    "commands": ["开始复习", "查看学习统计"],
+    "ui": "ui.json",
+    "slots": [
+      { "slot": "navigation", "title": "英语学习", "icon": "Languages" },
+      { "slot": "sidebar", "title": "今日复习", "icon": "Languages" }
+    ]
+  }
+}

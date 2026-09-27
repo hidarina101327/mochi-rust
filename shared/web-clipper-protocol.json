@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "host": "com.mochi.web_clipper",
+  "limits": { "totalBytes": 104857600, "imageBytes": 20971520, "chunkBytes": 196608 },
+  "request": { "version": 1, "id": "request-1", "op": "ping" },
+  "response": { "version": 1, "id": "request-1", "ok": true, "result": { "version": 1 } },
+  "clip": {
+    "clipId": "fixture-clip-1", "workspace": "workspace-token", "title": "协议样例", "url": "https://example.com/article",
+    "author": null, "capturedAt": 1789862400000, "mode": "article", "format": "markdown", "destination": "inbox", "folder": "", "excerpt": "",
+    "files": [{ "name": "document.md", "size": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }]
+  }
+}

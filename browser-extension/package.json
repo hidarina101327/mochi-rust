@@ -1,0 +1,27 @@
+{
+  "name": "mochi-web-clipper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && node build.mjs",
+    "test": "vitest run",
+    "package": "npm run build && node package.mjs"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "dompurify": "^3.4.0",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.0",
+    "@types/turndown": "^5.0.5",
+    "esbuild": "^0.25.0",
+    "fflate": "^0.8.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "jsdom": "^26.0.0"
+  }
+}

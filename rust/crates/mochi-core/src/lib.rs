@@ -1,0 +1,62 @@
+//! Mochi 的工作区存储、索引、AI、日程和工作流服务。
+//!
+//! 本 crate 不依赖桌面 UI；窗口操作由宿主接口提供。
+//! 工作区格式与 Electron 共用，磁盘协议变更需保留互读兼容。
+//! 文档块和审批模型由 `mochi-blocks` 提供。
+
+pub mod agenda;
+pub mod ai;
+pub mod analytics;
+pub mod app_settings;
+pub mod base;
+pub mod base_automation;
+pub mod base_export;
+pub mod base_reference_paths;
+pub mod bundled_guides;
+pub mod canvas;
+pub mod capture;
+pub mod console_system;
+pub mod desktop_cards;
+pub mod document_blocks;
+pub mod document_format;
+pub mod document_range;
+pub mod document_unread;
+pub mod domain;
+pub mod english_lab;
+pub mod exam;
+pub mod exports;
+pub mod external_import;
+pub mod favorites;
+pub mod files;
+pub mod git;
+pub mod json2;
+pub mod jstime;
+pub mod link_files;
+pub mod mapped_folders;
+pub mod marketplace;
+pub mod memory;
+pub mod metadata_index;
+pub mod mochi_url;
+pub mod note_parser;
+pub mod object_reference;
+pub mod office;
+pub mod paths;
+pub mod plugins;
+pub mod product_knowledge;
+pub mod quick_navigation;
+pub mod rename;
+pub mod rename_links;
+pub mod script;
+pub mod search;
+pub mod settings;
+pub mod shell;
+pub mod sidecars;
+pub mod sub_documents;
+pub mod templates;
+pub mod transfer;
+pub mod updates;
+pub mod watcher;
+pub mod web_clipper;
+pub mod word_count;
+pub mod workflows;
+pub mod workspace;

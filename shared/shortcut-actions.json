@@ -1,0 +1,62 @@
+[
+  {
+    "action": "quickOpen",
+    "defaultKey": "Ctrl+P"
+  },
+  {
+    "action": "commandPalette",
+    "defaultKey": "Ctrl+Shift+P"
+  },
+  {
+    "action": "globalSearch",
+    "defaultKey": "Ctrl+Shift+F"
+  },
+  {
+    "action": "openSchedule",
+    "defaultKey": "Ctrl+Alt+S"
+  },
+  {
+    "action": "openDashboard",
+    "defaultKey": "Ctrl+Alt+D"
+  },
+  {
+    "action": "toggleDarkMode",
+    "defaultKey": "Ctrl+Shift+L"
+  },
+  {
+    "action": "save",
+    "defaultKey": "Ctrl+S"
+  },
+  {
+    "action": "newFile",
+    "defaultKey": "Ctrl+N"
+  },
+  {
+    "action": "closeTab",
+    "defaultKey": "Ctrl+W"
+  },
+  {
+    "action": "nextTab",
+    "defaultKey": "Ctrl+Tab"
+  },
+  {
+    "action": "prevTab",
+    "defaultKey": "Ctrl+Shift+Tab"
+  },
+  {
+    "action": "toggleAIPanel",
+    "defaultKey": "Ctrl+J"
+  },
+  {
+    "action": "toggleSidebar",
+    "defaultKey": "Ctrl+\\"
+  },
+  {
+    "action": "applyLastTextColor",
+    "defaultKey": "Ctrl+Shift+C"
+  },
+  {
+    "action": "applyLastHighlightColor",
+    "defaultKey": "Alt+Shift+C"
+  }
+]

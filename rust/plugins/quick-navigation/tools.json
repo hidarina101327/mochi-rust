@@ -1,0 +1,6 @@
+[
+  {"name":"read_items","effect":"read","description":"读取快捷导航条目"},
+  {"name":"list_groups","effect":"read","description":"读取快捷导航分组"},
+  {"name":"write_items","effect":"write","description":"经用户批准后创建或更新快捷方式"},
+  {"name":"delete_items","effect":"write","description":"经用户批准后删除快捷方式"}
+]

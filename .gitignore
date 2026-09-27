@@ -1,0 +1,47 @@
+# Dependencies and generated files; build inputs remain tracked.
+node_modules/
+.pnpm-store/
+/build/
+/release/
+/dist/
+**/target/
+**/target-*/
+**/__pycache__/
+*.pyc
+*.log
+*.tmp
+*.bak
+*.rs.bk
+*.tsbuildinfo
+playwright-report/
+test-results/
+coverage/
+# Local configuration, user content, and signing material.
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.mochi/
+TestWorkspace/
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.credential.xml
+.DS_Store
+Thumbs.db
+# Local screenshots from source review are not distribution assets.
+/rust/target*.png
+/rust/target*.jpg
+/rust/target*.jpeg
+/rust/target*.webp
+# Never nest another checkout inside this repository.
+/mochi/
+/mochi-rust/
+/mochi-macos/
+/mochi-android/
+/mochi-releases/
+/mochi-open-source-review/

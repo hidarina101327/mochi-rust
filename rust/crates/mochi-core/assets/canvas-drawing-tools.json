@@ -1,0 +1,65 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "canvas_draw",
+      "description": "直接在用户的 .mcanvas 画布画画、写字或修改笔迹，立即显示并保存，已打开的画布中整批可一次撤销。先 canvas_get 获取 revision、视口和已有内容；path 可省略以使用本轮用户打开的画布。使用世界坐标，按 suggestedBounds 安排作品，避免覆盖原内容。动物可由多条平滑曲线和椭圆组成，不要仅回复 ASCII 画或代码。drawing.paths 是描边路径：commands 每项为 [\"M\",x,y] 移动、[\"L\",x,y] 直线、[\"Q\",cx,cy,x,y] 二次曲线、[\"C\",c1x,c1y,c2x,c2y,x,y] 三次曲线、[\"Z\"] 闭合，均为绝对坐标，必须以 M 开始；多次 M 创建独立笔迹。drawing.ellipses 用中心和半径画圆/椭圆。中文用 texts 保持文字可编辑。color 为 #RRGGBB，默认 #334155；width 为世界坐标笔宽，默认 3。无填充。修改时 replaceIds 仅列出需要替换的笔迹/文字 ID，并提供替代内容；省略时追加。一整幅简单作品尽量一次调用。最多 256 对象、20000 采样点、文字 32000 字节；遇到版本冲突先重新读取。返回 addedIds 可用于后续修改。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "description": "画布路径，省略时使用当前画布" },
+          "expectedRevision": { "type": "string", "description": "最近 canvas_get 返回的 revision" },
+          "drawing": {
+            "type": "object",
+            "properties": {
+              "paths": {
+                "type": "array", "maxItems": 256,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "commands": { "type": "array", "minItems": 1, "maxItems": 512, "items": { "type": "array", "minItems": 1, "maxItems": 7, "items": { "anyOf": [{"type":"string"},{"type":"number"}] } } },
+                    "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+                    "width": { "type": "number", "minimum": 0.5, "maximum": 64 }
+                  },
+                  "required": ["commands"], "additionalProperties": false
+                }
+              },
+              "ellipses": {
+                "type": "array", "maxItems": 256,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cx": {"type":"number"}, "cy": {"type":"number"},
+                    "rx": {"type":"number","exclusiveMinimum":0,"maximum":10000},
+                    "ry": {"type":"number","exclusiveMinimum":0,"maximum":10000},
+                    "color": {"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},
+                    "width": {"type":"number","minimum":0.5,"maximum":64}
+                  },
+                  "required":["cx","cy","rx","ry"], "additionalProperties":false
+                }
+              },
+              "texts": {
+                "type":"array", "maxItems":256,
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "text":{"type":"string","minLength":1},
+                    "x":{"type":"number"}, "y":{"type":"number"},
+                    "width":{"type":"number","minimum":40,"maximum":10000,"description":"文本框宽度，默认 320"},
+                    "fontSize":{"type":"number","minimum":12,"maximum":96,"description":"字号，默认 24"},
+                    "color":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"}
+                  },
+                  "required":["text","x","y"], "additionalProperties":false
+                }
+              },
+              "replaceIds":{"type":"array","maxItems":256,"items":{"type":"string"},"description":"需替换或删除的已有笔迹/文字 ID；默认不删除任何内容"}
+            },
+            "additionalProperties":false
+          }
+        },
+        "required":["expectedRevision","drawing"],
+        "additionalProperties":false
+      }
+    }
+  }
+]

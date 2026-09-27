@@ -1,0 +1,26 @@
+name: Browser web clipper
+on:
+  push:
+    paths: ['browser-extension/**', 'shared/web-clipper-protocol.json', '.github/workflows/web-clipper.yml']
+  pull_request:
+    paths: ['browser-extension/**', 'shared/web-clipper-protocol.json', '.github/workflows/web-clipper.yml']
+jobs:
+  extension:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: browser-extension
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: browser-extension/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: browser-extension-marketplace-zips
+          path: browser-extension/artifacts/*.zip

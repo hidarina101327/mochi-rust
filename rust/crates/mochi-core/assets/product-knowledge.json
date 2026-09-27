@@ -1,0 +1,101 @@
+{
+  "brief": "# 墨池产品上下文\n\n你运行在「墨池 (Mochi)」里——一款 AI 原生的本地优先桌面笔记应用（Electron + React）。所有笔记都是磁盘上的真实文件，每次保存自动生成 Git 版本，元数据存放在工作区的 .mochi/ 目录。\n\n核心概念：\n- 工作区：一个本地文件夹；顶层视图有 工作台(home)、标签页、最近、日程待办、墨池AI、速记、收件箱。\n- 库系统：内容按「库类型 → 库实例」组织（如 知识库/计算机通识）；配置存于 .mochi/library-types.json 与 libraries.json。\n- 映射文件夹：每个知识库可以并列挂载计算机上的外部文件夹。映射只保存来源路径、显示名称与白/黑名单规则，不复制外部文件；目录树按需、分层读取名称而不在首次打开时读取文件内容。规则类似 .gitignore：* 不跨目录，** 可跨目录，? 匹配一个字符，多个规则按顺序应用，! 可重新包含。映射文件夹是否可读写仍取决于当前 Agent 的工具权限与文件夹权限，不能因为出现在树中就声称拥有额外权限。\n- 文件格式：.md/.mc/.txt 用所见即所得编辑器；.mcb 是可含多个数据表、字段、记录与视图的多维表格；.mcanvas 是只保存对象引用和二维布局的自由画布；支持 PDF、Word、Excel、PPT、图片、代码、.exam 交互试卷、.link.json 链接文件。\n- Agent 配置：<工作区>/Agent配置/ 下的 Agents、Skills、Tools、MCPs、QuickActions、Tasks 六类 Markdown 文档定义了你自己的行为，可被用户编辑，也可以由你代为编辑。\n- 日程待办：<工作区>/agenda/，通过 agenda_* 工具读写；事项（愿望/目标/任务）与日程（日程、时间块、重复安排）并列，时间块只引用任务。\n- 多维表格：.mcb 为 mochi-base version 1 JSON；用 base_get_schema 取字段 ID，base_query_records 查询，base_create_record / base_update_record 局部写入。内置「多维表格」Skill 说明完整契约；reference 字段用稳定 mochi://open 链接引用笔记、记录和日程，详见 mochi_docs 的 multidimensional-base 主题。\n- 版本历史：isomorphic-git 自动提交，git_* 工具可查历史、对比、恢复。\n- 自动化入口：当前 Agent 可实际调用工作区、文件、文档块、Base、日程、Git、子文档、设置、搜索与受控 shell 工具。工具清单就是权限边界；没有专用工具的 UI 能力不得声称已直接操作。\n\n你对墨池自身的能力：\n- mochi_docs：墨池的内置产品说明书（功能、格式、设置、快捷键、数据位置等）。用户问“墨池怎么用 / 有没有某功能 / 设置在哪 / 什么格式”时，先查它再回答，不要凭空猜测。\n- settings_list / settings_get / settings_update / settings_reset：查看和直接修改应用设置（主题、外观、排版、标签页、自动保存、AI、版本历史等），修改立即生效并持久化。\n- settings_open_ui：打开设置窗口指定分页，让用户自己看。\n\n设置操作守则：\n- 改之前先用 settings_list 或 settings_get 确认 key、当前值和合法范围；改完用一两句中文说明改了什么（旧值 → 新值）。\n- 用户描述模糊（如“字大一点”“暗一点”）时，小步调整并告知可以继续微调或恢复默认（settings_reset）。\n- 高影响设置必须先获得用户明确同意：ai.editApplyMode 改为 auto、ai.requirePermissionPrompt 关闭、git.versionHistoryEnabled 关闭。\n- 设置修改被权限拒绝时如实告知用户去「设置 → AI」里开启「修改设置」权限，不要绕过。",
+  "topics": [
+    {
+      "id": "multidimensional-base",
+      "title": "多维表格与记录引用",
+      "summary": ".mcb 文件结构、字段类型、表格/看板、Agent 查询与记录局部更新，以及笔记/日程稳定引用。",
+      "body": "# 多维表格\n\n.mcb 是工作区里的 UTF-8 JSON，format 为 mochi-base、version 为 1；一个文件包含多个数据表，每个表有 fields、records、views。每个记录用 values 按字段 ID 保存值。表格和看板是同一份数据的不同视图，切换视图不会复制记录。\n\n字段支持文本、数字、下拉菜单、多选标签、日期、时间点、时间段、复选框、链接、进度和 reference 引用。选择字段存选项 ID；日期为 YYYY-MM-DD；时间点为 YYYY-MM-DDTHH:mm；时间段为有序的两个时间点；进度为 0–100。所有字段允许 null，未填写字段可以省略，0 和 false 不是空值。\n\nreference 字段是去重的 mochi://open URL 字符串数组。普通笔记用 path；表记录在 path 外添加 table 和 record，定位字段再加 field；日程待办用 path=agenda、kind=task/event/project 与 item（item 为记录 id）。path 优先为工作区相对路径，可选 label 为显示名，定位依赖稳定 ID。引用只负责链接，不会复制目标或自动创建日程。\n\n## Agent 操作\n- base_get_schema：读取表、字段、选项、视图和记录数，取得稳定 ID。\n- base_query_records：按表/视图/字段查询，AND 筛选、排序、文本搜索与分页；默认 20 条、最多 100 条。返回 values、displayValues 和稳定记录 URL。\n- base_create_record：在已有数据表新增一条记录，可指定 recordId 以安全重试。\n- base_update_record：按 tableId + recordId 更新 values 中指定字段，其他内容不动；可带 expectedValues 防止覆盖已经变化的值。\n\n这些工具读取已保存文件，遵守已有文件权限和变更提案，保存前验证完整文档。提案待批准时不能声称已经写入。未知属性会保留；无效版本或类型会报错，不能降级成空表。修改结构时应先读取原文，维护字段、选项、视图与记录引用，再保存。\n\n内置「多维表格」Skill 位于 Agent配置/Skills/多维表格/SKILL.md。通用助手会根据 .mcb / 多维表格请求或当前 .mcb 文档路由该 Skill；自定义 Agent 需在 skills 或 routableSkills 中启用，并允许相应 base_* 工具。Skill 的存在不会绕过 Agent 的工具范围或文件权限。"
+    },
+    {
+      "id": "product-overview",
+      "title": "产品概览",
+      "summary": "墨池是什么、设计理念、界面布局与主要视图。",
+      "body": "# 产品概览\n\n墨池 (Mochi) 是一款 AI 原生桌面笔记应用，围绕三个原则设计：\n1. 本地优先：笔记是磁盘上的真实文件，可以用任何外部工具直接编辑；应用元数据集中在工作区的 .mochi/ 目录。\n2. 自动版本化：每次保存自动生成 Git 提交，可随时查看历史、对比差异、恢复旧版。\n3. AI 深度集成：AI 不是聊天挂件，而是带工具的 Agent，可以读写文件、管理日程、控制设置、执行命令（需批准）。\n\n界面布局（从左到右）：\n- 全局导航栏：切换视图与库，可折叠。\n- 工作区侧边栏：文件树、大纲、设置导航等。\n- 主区：标签页 + 编辑器/查看器，支持左右分屏。\n- AI 助手面板：右侧，Ctrl+J 开关。\n\n主要视图：\n- 工作台 (home)：可自定义区块的仪表盘。\n- 标签页 (tabs)：文档编辑主界面。\n- 最近 (recent)：最近打开/修改的文件。\n- 日程待办 (schedule)：事项（愿望/目标/任务）与日程（日程、时间块、重复安排）管理。\n- 墨池AI (mochi-ai)：全屏 AI 会话工作区，含会话列表。\n- 速记 (quick-note)：快速记录。\n- 收件箱 (inbox)：后台 AI 任务的写操作审批。\n\n其它常驻功能：番茄钟（25 分钟默认）、全局搜索（SQLite FTS5 全文索引）、命令面板、快速打开、插件系统。"
+    },
+    {
+      "id": "workspace-library",
+      "title": "工作区与库系统",
+      "summary": "工作区目录结构、库类型/库实例、.mochi 元数据目录。",
+      "body": "# 工作区与库系统\n\n工作区就是一个本地文件夹，典型结构：\n\n- <工作区>/\n  - .mochi/：元数据目录（AI 工具默认不可访问）\n    - library-types.json：库类型定义\n    - libraries.json：库实例配置\n    - metadata.db：SQLite 数据库（全文搜索索引等）\n    - git/：Git 仓库数据\n    - ai-sessions/：AI 会话存档\n    - ai-permissions.json：文件夹级 AI 权限\n  - 知识库/：库类型目录，下面每个文件夹是一个库实例（如 计算机通识、面试经历）\n  - Agent配置/：AI 的 Agents/Skills/Tools/MCPs/QuickActions/Tasks 定义\n  - agenda/：日程待办数据（agenda.json + 操作日志）\n\n库系统两层结构：\n- 库类型（如「知识库」「刷题库」「日记本」）：一类内容的容器，定义默认侧边栏布局；可内置或用户自定义。\n- 库实例（如「计算机通识」）：库类型下的具体库，对应目录 <工作区>/<库类型>/<库实例>，存放真实文件。\n\n对 AI 而言：工作区根目录下的顶层文件夹即「知识库」，可用 kb_list / kb_select / kb_create 工具管理；文件操作用 folder_list / file_read / file_write / content_search 等工具，路径不能越出工作区。"
+    },
+    {
+      "id": "file-formats",
+      "title": "文件格式与查看器",
+      "summary": "支持打开/编辑的所有文件类型及各自行为。",
+      "body": "# 文件格式与查看器\n\n可编辑格式：\n- .md / .mc / .txt：TipTap 所见即所得编辑器，支持 Markdown 语法、数学公式（KaTeX，$...$ 行内、$$...$$ 块级）、任务列表、表格、代码块。.mc 是墨池文档格式，行为与 Markdown 相同。\n- Agent配置 下的 .md：使用原始 Markdown 源码编辑器（不渲染），便于编辑 frontmatter。\n\n只读查看器：\n- 图片：png / jpg / jpeg / gif / webp / svg / bmp / ico。\n- PDF：.pdf，内置查看器，支持高亮/下划线等标注（标注存旁路 .annotations/<文件名>.annotations.json，不改原文件）。\n- Office：.doc / .docx（转换查看）、.xls / .xlsx（电子表格查看器）、.ppt / .pptx（演示文稿查看器）。\n- 代码：.js / .ts / .py / .html / .json 等常见代码扩展名，语法高亮查看。\n- .exam：交互试卷（可作答、判分），由 AI 按「出题规范」Skill 生成。\n- .link.json：链接文件，指向外部网页；目录树「新建链接」会询问显示名称与 HTTP/HTTPS URL，显示名称同时作为标题和文件名。AI 若需创建链接文件，可在用户授权的目录用 file_write 写入其 JSON；不得把网页正文伪装成链接文件。\n- .mcanvas：自由画布文件；卡片只保存文档块、Base 记录、日程任务或 PDF 批注的 mochi:// 对象 URL 与坐标，不复制源内容。当前没有 canvas_* Agent 工具：用户要求直接创建或编排画布时，应如实说明需要在画布界面完成；AI 可以先用现有工具查找、创建或更新将要被引用的原对象。\n\n子文档：一篇文档可以挂子文档（存放在隐藏伴生文件夹），AI 用 subdocument_create 工具创建，适合把 AI 产出挂在母本下而不污染原文。\n\n导出：文档可导出为 PDF / HTML / Markdown（AI 可用 document_export 工具完成）。"
+    },
+    {
+      "id": "editor",
+      "title": "编辑器与写作功能",
+      "summary": "编辑器能力、自动保存、批注评论、内联补全、选区 AI。",
+      "body": "# 编辑器与写作功能\n\n编辑能力：\n- 所见即所得 Markdown：标题、列表、任务列表、引用、代码块、表格、图片、数学公式。\n- 「当前行显示源码」模式：光标所在行显示 Markdown 源码，其余行渲染（设置 editorLayout.liveLineSource）。\n- 代码块：输入三个反引号（也支持中文间隔号“···”）后按 Enter 才转换为代码块；初始只有一行，未按 Enter 前保持普通文本。\n- 左右分屏：两个编辑窗格并排，可调分割比例。\n- 大纲：位置可配置（左侧栏 / 编辑器左右 / AI 侧栏）。\n\n保存与版本：\n- 自动保存：默认停止输入 2 秒后落盘（save.autoSaveDelay 可调，最低 500ms）；每次保存自动生成 Git 提交。\n- 手动保存：Ctrl+S。\n\n批注与评论：\n- 文档内评论：选中文字添加评论，评论面板集中管理（AI 可用 comment_list 读取）。\n- PDF 标注：高亮、下划线等，存旁路文件（AI 可用 annotation_list 读取）。\n\nAI 写作辅助：\n- 内联补全：输入停顿后显示灰色幽灵文本建议，Tab 接受（设置 ai.inlineCompletionEnabled 等）。\n- 选区快捷动作：选中文字右键出现 AI 功能块（继续写作、润色、总结、翻译、格式调整、重点标注），模板在 Agent配置/QuickActions/ 可自定义。\n- 局部修改：AI 对「这段/选中内容」的修改走 document_range_propose_edit，以待批准提案形式出现，不直接覆盖整篇。"
+    },
+    {
+      "id": "settings",
+      "title": "设置系统",
+      "summary": "设置分类、AI 如何读写设置、持久化位置。",
+      "body": "# 设置系统\n\n设置窗口分页：ai（AI 设置）、general（通用）、customization（界面定制）、shortcuts（快捷键）、version-history（版本历史）、plugins（插件）。AI 可用 settings_open_ui 打开指定分页。\n\nAI 可控设置分类（settings_list 的 category 参数）：\n  - general（通用）\n  - appearance（外观与区域配色）\n  - background（自定义背景）\n  - navigation（全局导航栏）\n  - sidebar（侧边栏与文件树）\n  - tabs（标签页）\n  - editor-layout（编辑器布局）\n  - typography（正文排版）\n  - headings（标题样式）\n  - code（代码块）\n  - tables（表格）\n  - lists（列表与引用）\n  - outline（大纲）\n  - save（自动保存）\n  - ai（AI 助手）\n  - version-history（版本历史 / Git）\n\nAI 操作设置的流程：\n1. settings_list（可带 category / query）→ 找到设置 key、当前值、类型、范围。\n2. settings_update 提交 [{ key, value }] 批量修改；全部校验通过才会应用，数字超范围会被钳制并在结果里标记 clamped。\n3. settings_reset 按 keys 或整个 category 恢复默认值。\n4. 修改立即生效并自动持久化，无需重启。\n\n不在 settings_* 注册表里的配置：\n- AI Provider（API 地址 / 密钥 / 模型）：涉及密钥，只能让用户在「设置 → AI」里手动配置。\n- 快捷键：在「设置 → 快捷键」里改（settings_open_ui tab=shortcuts）。\n- 文件夹级 AI 权限：在 AI 面板的权限管理里配置。\n- 背景图片 URL：需要用户选择本地图片，引导用户在「设置 → 界面定制 → 外观」里设置；启用/透明度/缩放/位置可由 settings_update 调。\n\n持久化机制：更新后的 Electron 开发版、正式版与 Rust 版共用 %APPDATA%/mochi/settings.json。首次创建共享文件时优先迁移 Electron 开发版设置，并在同目录 settings-backups/ 保留来源备份；已有共享文件不会被旧配置反复覆盖。MOCHI_SETTINGS_FILE 可指定隔离的设置文件；旧的未更新可执行文件仍可能读写旧位置，需要重新构建或升级。Electron 的 Chromium profile 与缓存仍按开发版、正式版分别保存，无 Electron 环境时回退浏览器 localStorage。日程、AI 会话、库配置等数据存在工作区内（见「数据存储位置」主题）。"
+    },
+    {
+      "id": "shortcuts",
+      "title": "键盘快捷键",
+      "summary": "默认快捷键清单与自定义方式。",
+      "body": "# 键盘快捷键\n\n可自定义（设置 → 快捷键）：\n- Ctrl+P：快速打开文件\n- Ctrl+Shift+P：命令面板\n- Ctrl+Shift+F：全局搜索\n- Ctrl+Alt+S：打开日程待办；Ctrl+Alt+D：打开工作台/仪表盘；Ctrl+Shift+L：切换深色模式\n- Ctrl+S：保存文件\n- Ctrl+N：新建文件\n- Ctrl+W：关闭标签页\n- Ctrl+Tab / Ctrl+Shift+Tab：下一个 / 上一个标签页\n- Ctrl+J：切换 AI 面板\n- Ctrl+\\：切换侧边栏\n- Ctrl+Shift+C：应用上次字体颜色\n- Alt+Shift+C：应用上次背景颜色\n\n编辑器固定快捷键（不可改）：\n- Ctrl+B / Ctrl+I / Ctrl+U：加粗 / 斜体 / 下划线\n- Ctrl+Shift+X：删除线；Ctrl+E：行内代码\n- Ctrl+Alt+1..6：H1..H6 标题\n- Ctrl+Shift+8 / 9 / 7：无序列表 / 有序列表 / 任务列表\n- Ctrl+Shift+B：代码块；Ctrl+Shift+>：引用块\n- Ctrl+Z / Ctrl+Shift+Z：撤销 / 重做\n\n自定义快捷键存储在应用设置里；AI 不能直接改快捷键，可用 settings_open_ui（tab=shortcuts）带用户过去。"
+    },
+    {
+      "id": "schedule",
+      "title": "日程待办",
+      "summary": "事项与日程两个模块的数据模型、规则、界面、AI 工具与批准流程。",
+      "body": "# 日程待办\n\n全局导航栏的「日程待办」包含两个并列、相互关联的模块：\n\n- 事项：管理事情本身。愿望 (wish) 可以模糊、没有期限；目标 (goal) 有达成标准和目标日期，可挂在愿望下；任务 (task) 是可执行的一步，可挂在目标下，有优先级、截止日期、计划日期、预计时长和步骤。\n- 日程：管理时间。日程 (entry) 是有开始和结束时间的安排；带 taskId 的日程就是任务的时间块，只引用任务、不复制，标题跟随任务，一个任务可以有多个时间块。重复安排 (routine) 描述每天/每周/每月重复的事，每一天的发生在确认前是虚拟的。\n- 项目 (project) 只做归类，任何记录都可以归入项目。\n\n规则（不会替用户做判断）：\n- 时间过去不代表已执行：过去仍为计划中的时间块和重复安排进入「待确认」，由用户确认已执行或未执行。\n- 时间块执行不代表任务完成；需要同时完成任务时使用「已执行并完成任务」。\n- 任务全部完成不代表目标达成，目标达成不代表愿望实现，都由用户显式判定。\n- 逾期、已排期、时间已过都是计算出来的；只有未完成的任务会逾期。\n- 提前完成或删除任务时，会询问是否取消它未来的计划时间块，默认保留；重新打开任务不会恢复已取消的块。\n- 删除愿望或目标只解除子项的关联；归档只影响默认可见性；删除任务会留下可追溯的回收站记录，保留的时间块显示「原任务已删除」。\n\n界面：左侧栏有 今日 / 本周 / 月历 / 待确认（日程），全部待办 / 目标 / 愿望 / 重复（事项），以及项目与回收站。今日视图是时间轴，可拖动创建、移动、调整时长，把待办拖到时间轴即可排入；右侧显示今天的待办区块和检查器。按 Ctrl+J 呼出墨池 AI 规划今天。\n\n数据位置：<工作区>/agenda/agenda.json（整份数据）与 agenda/log.jsonl（操作日志，记录来源：我 / 墨池 AI / 桌面卡片 / 系统）。旧版 schedule/ 数据会在第一次打开时自动迁移。\n\nAI 操作方式（必须走 agenda_* 工具，不允许 file_write 直改 JSON）：\n- 查询：agenda_overview（某天起的时间轴、待办、待确认、目标进度、负载）、agenda_list、agenda_get（含「为什么做」链与时间块）、agenda_find_free_time、agenda_history。\n- 修改：agenda_batch 用一组操作原子提交，agenda_plan_day 把待办自动排入空档。\n- 修改类工具返回 pendingScheduleDiff：status=pending 表示等待用户批准，applied 才表示已写入。"
+    },
+    {
+      "id": "exam",
+      "title": ".exam 交互试卷",
+      "summary": "交互试卷的用途与生成方式。",
+      "body": "# .exam 交互试卷\n\n.exam 是墨池的交互试卷格式：在专用查看器里可以作答、提交、判分，比纯 Markdown 题单体验更好。答题草稿保存在本地（不进 Git）。\n\n生成方式：由 AI（学习助手或任何有权限的 Agent）依据「出题规范」Skill 生成——该 Skill 定义了具体文件格式、题型结构、答案与解析字段、LaTeX 约束和落盘路由（对话出题 / 挂到母本子文档 / 写独立文件）。\n\n用户常见指令：\n- “根据这篇文档出 10 道题” → 默认在对话里出题。\n- “生成一份试卷文件/挂到这篇笔记下” → 生成 .exam 并用 subdocument_create 挂载。\n\n出题的具体格式细节以「出题规范」Skill 为准（Agent配置/Skills/出题规范/SKILL.md）。"
+    },
+    {
+      "id": "version-history",
+      "title": "版本历史 (Git)",
+      "summary": "自动提交机制、历史查看与恢复、相关设置。",
+      "body": "# 版本历史 (Git)\n\n机制：\n- 基于 isomorphic-git（纯 JS，无需安装 Git），仓库数据在 .mochi/git/。\n- 每次保存文件自动生成提交；也支持按间隔自动提交（git.autoCommitInterval，默认 10 分钟）。\n- AI 引起的修改可单独标记（git.trackAIOperations）。\n\n用户入口：版本历史面板可浏览提交、查看差异、恢复文件。\n\nAI 工具：\n- git_history：查提交历史（可按文件/作者过滤），回答“这篇笔记改过几次”。\n- git_file_diff：对比某文件两个版本。\n- git_restore_file：恢复历史版本，mode=copy 生成副本（安全，默认建议），mode=overwrite 覆盖当前文件（需谨慎）。\n- git_commit：手动打一个版本快照，适合在一组改动前后打点。\n\n相关设置（settings_* 可改）：git.versionHistoryEnabled（总开关，关闭需用户明确同意）、git.authorName / authorEmail、git.autoCommitEnabled / autoCommitInterval、git.trackAIOperations、git.showVersionHistory、git.maxHistoryDepth。"
+    },
+    {
+      "id": "ai-system",
+      "title": "AI 助手与 Agent 配置体系",
+      "summary": "Provider、会话、Agents/Skills/Tools/MCPs/QuickActions/Tasks、记忆、后台任务。",
+      "body": "# AI 助手与 Agent 配置体系\n\nProvider：OpenAI 兼容 API（自定义 baseURL / 模型 / 密钥），在「设置 → AI」配置，可配置多个并指定内联补全专用 Provider。密钥不进入 AI 可控设置。\n\n会话：AI 面板（Ctrl+J）或「墨池AI」全屏视图；会话按项目分组，正文存 .mochi/ai-sessions/。\n\nAgent 配置（<工作区>/Agent配置/，全部是可编辑的 Markdown）：\n- Agents/<名称>.md：一个 Agent = frontmatter（tools / skills / skillRouting / mcps / executionMode 等路由配置）+ 正文（系统提示词）。内置种子：通用助手、日程助手、学习助手、日报助手、项目助手、写作助手、翻译助手、联网研究助手、Agent框架助手、墨池管家。\n- Skills/<名称>/SKILL.md：可复用执行协议；frontmatter 的 description/aliases 用于路由。skillRouting: none 不加载 / explicit 仅显式 / light 显式 + 按用户请求轻量路由（最多 3 个）。\n- Tools/<名称>/TOOL.md：可覆盖内置工具的 description。\n- MCPs/<服务器>/MCP.md：外部 MCP 服务器定义（transport/command/url/env），工具以 mcp__<server>__<tool> 并入。\n- QuickActions/：编辑器选区快捷动作模板。\n- Tasks/：后台定时任务（schedule: manual/hourly/interval:30m/daily:09:00；autonomy: read-only / whitelisted / propose-only），写操作按 autonomy 进入审批收件箱。\n\n其它机制：\n- 长期记忆：memory_search / memory_write 工具，存 SQLite，跨会话保留用户偏好与事实；另有自动记忆萃取（ai.memoryAutoExtract，默认开启）在每轮对话后提取值得记住的偏好。\n- 执行计划：agent_plan 工具维护用户可见的步骤 checklist；executionMode 为 plan-and-execute 的 Agent 会被要求先计划后执行。\n- 思考过程可视化：推理模型的思维链、工具调用轨迹与计划会实时显示在回答上方的时间线里，完成后折叠为「思考过程」卡片随会话保存，可随时回看。\n- 编辑应用模式 ai.editApplyMode：approve（默认，生成待批准提案）/ auto（直接落盘，改它必须用户明确同意）。\n- Shell：shell_run 生成待批准命令提案；用户可维护免确认白名单（按程序名）。\n- 网络：http_request 直接执行；MCP 工具由主进程连接池执行。"
+    },
+    {
+      "id": "ai-permissions",
+      "title": "AI 权限体系",
+      "summary": "动作级开关与文件夹四级权限。",
+      "body": "# AI 权限体系\n\n两层权限，工具执行前都会检查：\n\n1. 动作级开关（设置 → AI）：\n- read_file 读取文件 / write_file 写入文件 / delete_file 删除文件\n- execute_command 执行命令（默认关闭）\n- network_access 访问网络\n- modify_settings 修改设置（settings_update / settings_reset 受它控制）\n\n2. 文件夹级四级权限（.mochi/ai-permissions.json，在 AI 面板的权限管理里配置）：\n- invisible：AI 完全看不到，读写一律拒绝，搜索/列目录结果里也会被隐藏\n- readonly：可读，禁止写入/删除/重命名\n- suggest：可读，写入降级为待批准提案\n- modify：完全放行\n\n.mochi/ 元数据目录对 AI 工具始终不可访问。权限被拒绝时 AI 应如实告知用户，不得绕过。"
+    },
+    {
+      "id": "plugins",
+      "title": "插件系统",
+      "summary": "插件安装、能力与 AI 集成。",
+      "body": "# 插件系统\n\n墨池支持安装插件扩展功能，在「设置 → 插件」里安装/启用/卸载（settings_open_ui tab=plugins 可带用户过去）。\n\n插件能力：\n- 提供自己的界面（嵌入式 Frame）。\n- 向 AI 注册工具（命名 plugin_<插件id>_<工具名>）和 Skills，AI 面板会话中可直接调用。\n- 插件的写操作与路径访问同样受权限管理约束（插件路径授权在插件设置里）。\n\nAI 相关：plugin_current_context_get 工具可获取当前插件上下文；插件贡献的 Skills 会拼入系统提示词。"
+    },
+    {
+      "id": "search",
+      "title": "搜索与快速打开",
+      "summary": "全文搜索、快速打开、命令面板。",
+      "body": "# 搜索与快速打开\n\n- 全局搜索（Ctrl+Shift+F）：SQLite FTS5 全文索引，支持大小写敏感、正则、整词、短语匹配、扩展名过滤、include/exclude 模式。\n- 快速打开（Ctrl+P）：按文件名模糊匹配快速跳转。\n- 命令面板（Ctrl+Shift+P）：新建文件/文件夹、切换侧边栏、切换源码模式、全局搜索、AI 面板、版本历史、设置等命令。\n- AI 侧检索：content_search 工具做工作区内容搜索；memory_search 检索长期记忆。"
+    },
+    {
+      "id": "canvas-and-sidebar",
+      "title": "自由画布、目录树与标签页",
+      "summary": ".mcanvas 引用式画布、目录树创建/排序/链接、标签页与 AI 可控制边界。",
+      "body": "# 自由画布、目录树与标签页\n\n## 自由画布\n\n.mcanvas 是自由排布的空间容器。它保存的是卡片布局和稳定对象 URL，不复制文档正文、Base 记录、日程任务或 PDF 批注；因此源对象更新后，画布仍可追溯到同一对象。画布界面可从对象选择器加入文档块、Base 记录、日程任务和 PDF 批注。\n\n当前 Agent 没有 canvas_create / canvas_add / canvas_move 工具。不要虚构这些工具，也不要用 file_write 猜测或覆盖 .mcanvas 内部格式。遇到用户要求调整画布，先用工作区、文档块、Base 或日程工具准备真实对象，再说明需要用户在画布 UI 中加入、移动或排版。\n\n## 目录树\n\n目录树支持新建文件、文件夹、子文档、Base、Canvas、链接、导入、重命名、复制为副本、删除与排序。新建链接弹窗要求“显示名称”和 HTTP/HTTPS 链接；重名文件会自动生成唯一名称。文件夹可设为默认顺序、正序或倒序自动排序；自动排序期间禁止拖拽，原手工顺序会被保留，以便关闭自动排序后恢复。设置 sidebar.showFileIcons 可显示或隐藏文件/文件夹图标。\n\n链接、Canvas、目录树和标签页目前没有一组专用 Agent 工具。AI 可以通过 folder_list、folder_create、file_read、file_write、path_rename、file_delete、subdocument_create 和 workspace_get_state 操作工作区内可授权的真实文件；凡是需要 UI 状态（拖拽排序、标签页右键、画布坐标、文件选择弹窗）的操作，必须明确告知用户由界面完成，不能宣称已经完成。\n\n## 标签页与文档关系\n\n标签页显示已打开的内容，支持关闭、固定、分屏等界面操作。AI 所说的“当前文档”必须先用 current_document_get 确认；局部块操作使用 document_blocks_list、document_block_read 和 document_block_propose_edit，不能为了改一小段而覆盖整篇文件。文档底部反向链接默认隐藏，可由设置决定是否显示。"
+    },
+    {
+      "id": "data-storage",
+      "title": "数据存储位置",
+      "summary": "各类数据分别存在哪里，便于备份与排查。",
+      "body": "# 数据存储位置\n\n工作区内（跟随笔记一起备份）：\n- 笔记正文：工作区内的真实文件\n- .mochi/git/：版本历史\n- .mochi/metadata.db：搜索索引等\n- .mochi/ai-sessions/：AI 会话\n- .mochi/ai-permissions.json：文件夹级 AI 权限\n- .mochi/libraries.json、library-types.json：库配置\n- Agent配置/：AI 定义（Agents/Skills/Tools/MCPs/QuickActions/Tasks）\n- agenda/：日程待办数据\n- .annotations/：PDF 标注旁路文件（与被标注文件同级）\n\n应用数据目录（不在工作区）：\n- %APPDATA%/mochi/settings.json：Electron 开发版、正式版与 Rust 版共用的应用设置，包括主题、排版、AI 参数、快捷键和低资源模式等\n- %APPDATA%/mochi/settings-backups/：首次迁移选中的旧设置备份；共同设置优先采用 Electron 开发版配置\n- AI Provider 密钥：随共享应用设置保存，Windows 下使用当前用户的系统加密保护，不进工作区\n- %APPDATA%/mochi-dev/ 与 %APPDATA%/mochi-desktop/：分别保留 Electron 开发版与正式版的 Chromium profile、缓存\n\n设置 MOCHI_SETTINGS_FILE 可让启动的应用使用指定文件并隔离默认设置。旧的未更新可执行文件仍可能读取旧位置，需要重新构建或升级；共享文件不会自动改变旧程序的行为。\n\n浏览器 localStorage（回退/临时）：.exam 答题草稿等。"
+    }
+  ]
+}

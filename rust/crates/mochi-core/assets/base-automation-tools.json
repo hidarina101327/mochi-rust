@@ -1,0 +1,1065 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "base_automation_list",
+      "description": "读取视图自动化、运行记录和 Agent 编写指南，不写文件。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": ".mcb路径，省略使用当前文档"
+          },
+          "tableId": {
+            "type": "string",
+            "description": "可选，限定数据表"
+          },
+          "viewId": {
+            "type": "string",
+            "description": "可选，限定视图"
+          },
+          "ruleId": {
+            "type": "string",
+            "description": "可选，限定规则"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "base_automation_put",
+      "description": "校验并保存视图自动化草稿（强制暂停，持续运行需用户在界面启用）。先 get_schema 获取真实ID，再 test。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": ".mcb路径，省略使用当前文档"
+          },
+          "tableId": {
+            "type": "string"
+          },
+          "viewId": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Agent 保存时强制 false，用户在视图界面启用"
+              },
+              "trigger": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "manual"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "recordCreated"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "enterView"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "recordUpdated"
+                      },
+                      "fieldIds": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "fieldIds"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "interval"
+                      },
+                      "minutes": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 525600
+                      },
+                      "startAt": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "UTC Unix 毫秒"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "minutes",
+                      "startAt"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "conditions": {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "fieldId": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "enum": [
+                        "contains",
+                        "equals",
+                        "notEquals",
+                        "isEmpty",
+                        "isNotEmpty"
+                      ]
+                    },
+                    "value": {}
+                  },
+                  "required": [
+                    "fieldId",
+                    "operator"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "actions": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "updateRecord"
+                        },
+                        "values": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 100,
+                          "additionalProperties": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "literal"
+                                  },
+                                  "value": {}
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "field"
+                                  },
+                                  "fieldId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "fieldId"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "recordId"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "now"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "values"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "createRecord"
+                        },
+                        "tableId": {
+                          "type": "string"
+                        },
+                        "values": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 100,
+                          "additionalProperties": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "literal"
+                                  },
+                                  "value": {}
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "field"
+                                  },
+                                  "fieldId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "fieldId"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "recordId"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "now"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "tableId",
+                        "values"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "trigger",
+              "actions"
+            ]
+          }
+        },
+        "required": [
+          "tableId",
+          "viewId",
+          "rule"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "base_automation_delete",
+      "description": "删除指定视图自动化，走正常文件写入审批。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": ".mcb路径，省略使用当前文档"
+          },
+          "tableId": {
+            "type": "string"
+          },
+          "viewId": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tableId",
+          "viewId",
+          "ruleId"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "base_automation_test",
+      "description": "只读试跑：rule 或 ruleId 二选一，必须指定视图中1–200个recordIds。返回预计修改，不执行不启用。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": ".mcb路径，省略使用当前文档"
+          },
+          "tableId": {
+            "type": "string"
+          },
+          "viewId": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Agent 保存时强制 false，用户在视图界面启用"
+              },
+              "trigger": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "manual"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "recordCreated"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "enterView"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "recordUpdated"
+                      },
+                      "fieldIds": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "fieldIds"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "interval"
+                      },
+                      "minutes": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 525600
+                      },
+                      "startAt": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "UTC Unix 毫秒"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "minutes",
+                      "startAt"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "conditions": {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "fieldId": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "enum": [
+                        "contains",
+                        "equals",
+                        "notEquals",
+                        "isEmpty",
+                        "isNotEmpty"
+                      ]
+                    },
+                    "value": {}
+                  },
+                  "required": [
+                    "fieldId",
+                    "operator"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "actions": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "updateRecord"
+                        },
+                        "values": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 100,
+                          "additionalProperties": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "literal"
+                                  },
+                                  "value": {}
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "field"
+                                  },
+                                  "fieldId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "fieldId"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "recordId"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "now"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "values"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "createRecord"
+                        },
+                        "tableId": {
+                          "type": "string"
+                        },
+                        "values": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 100,
+                          "additionalProperties": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "literal"
+                                  },
+                                  "value": {}
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "field"
+                                  },
+                                  "fieldId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "fieldId"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "recordId"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "now"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "tableId",
+                        "values"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "trigger",
+              "actions"
+            ]
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "recordIds": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "tableId",
+          "viewId",
+          "recordIds"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "base_automation_run",
+      "description": "明确授权后单次执行 rule 或 ruleId；与test相同校验，写入走审批，不启用持续自动化。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": ".mcb路径，省略使用当前文档"
+          },
+          "tableId": {
+            "type": "string"
+          },
+          "viewId": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Agent 保存时强制 false，用户在视图界面启用"
+              },
+              "trigger": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "manual"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "recordCreated"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "enterView"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "recordUpdated"
+                      },
+                      "fieldIds": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "fieldIds"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "interval"
+                      },
+                      "minutes": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 525600
+                      },
+                      "startAt": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "UTC Unix 毫秒"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "minutes",
+                      "startAt"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "conditions": {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "fieldId": {
+                      "type": "string"
+                    },
+                    "operator": {
+                      "enum": [
+                        "contains",
+                        "equals",
+                        "notEquals",
+                        "isEmpty",
+                        "isNotEmpty"
+                      ]
+                    },
+                    "value": {}
+                  },
+                  "required": [
+                    "fieldId",
+                    "operator"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "actions": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "updateRecord"
+                        },
+                        "values": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 100,
+                          "additionalProperties": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "literal"
+                                  },
+                                  "value": {}
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "field"
+                                  },
+                                  "fieldId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "fieldId"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "recordId"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "now"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "values"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "const": "createRecord"
+                        },
+                        "tableId": {
+                          "type": "string"
+                        },
+                        "values": {
+                          "type": "object",
+                          "minProperties": 1,
+                          "maxProperties": 100,
+                          "additionalProperties": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "literal"
+                                  },
+                                  "value": {}
+                                },
+                                "required": [
+                                  "type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "field"
+                                  },
+                                  "fieldId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "fieldId"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "recordId"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": "now"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "tableId",
+                        "values"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "trigger",
+              "actions"
+            ]
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "recordIds": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "tableId",
+          "viewId",
+          "recordIds"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+]

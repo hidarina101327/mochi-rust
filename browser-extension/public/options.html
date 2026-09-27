@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="style.css" />
+    <title>墨池剪藏设置</title>
+  </head>
+  <body class="options">
+    <header class="app-header">
+      <img src="icons/48.png" width="40" height="40" alt="" />
+      <h1>网页剪藏设置</h1>
+    </header>
+    <main>
+      <section class="card">
+        <h2 id="connection-status">连接墨池</h2>
+        <p class="hint">在浏览器和墨池中确认，即可连接。支持多个浏览器。</p>
+        <div class="columns">
+          <a id="connect" class="button primary">连接墨池</a>
+          <button id="cancel" hidden>取消等待</button>
+          <button id="disconnect" hidden>断开连接</button>
+        </div>
+        <p id="message" role="status" aria-live="polite"></p>
+      </section>
+      <section id="storage" class="card" hidden>
+        <h2>默认存储位置</h2>
+        <p id="default-label"></p>
+        <div id="tree" class="tree"></div>
+        <p id="target" class="hint"></p>
+        <button id="set-default" disabled>设为默认位置</button>
+      </section>
+    </main>
+    <script src="options.js" type="module"></script>
+  </body>
+</html>

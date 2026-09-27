@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="style.css" />
+    <title>墨池网页剪藏</title>
+  </head>
+  <body class="popup">
+    <header class="app-header">
+      <img src="icons/32.png" width="28" height="28" alt="" />
+      <div>
+        <h1>墨池剪藏</h1>
+        <span id="workspace" class="hint">正在连接本地墨池…</span>
+      </div>
+      <button id="settings" class="quiet" title="扩展设置">设置</button>
+    </header>
+    <main>
+      <label for="title">文章标题</label><input id="title" placeholder="网页标题" maxlength="200" />
+      <div class="columns">
+        <div>
+          <label for="mode">剪藏内容</label
+          ><select id="mode">
+            <option value="article">全文正文</option>
+            <option value="selection">选中内容</option>
+            <option value="screenshot">网页截图</option>
+          </select>
+        </div>
+        <div>
+          <label for="format">保存格式</label
+          ><select id="format">
+            <option value="markdown">Markdown</option>
+            <option value="html">HTML 阅读版</option>
+            <option value="pdf">PDF</option>
+          </select>
+        </div>
+      </div>
+      <label class="check" id="crop-row" hidden
+        ><input type="checkbox" id="crop" />框选截图区域</label
+      >
+      <label class="check" id="images-row"
+        ><input type="checkbox" id="images" checked />保存离线图片（按需授权图片站点）</label
+      >
+      <p id="format-help" class="hint"></p>
+      <div class="actions">
+        <button id="inbox" class="primary" disabled>快速存储到收件箱</button
+        ><button id="default" disabled>存入默认知识库</button
+        ><button id="custom" disabled>自定义存储位置</button>
+      </div>
+      <section id="picker" hidden>
+        <div class="section-title">选择知识库 / 文件夹</div>
+        <div id="tree" class="tree"></div>
+        <p id="target" class="hint">请选择目标目录</p>
+        <button id="save-custom" class="primary" disabled>保存到所选位置</button>
+      </section>
+      <p id="message" role="status" aria-live="polite"></p>
+      <section>
+        <div class="section-title">最近剪藏</div>
+        <div id="jobs"></div>
+      </section>
+    </main>
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>

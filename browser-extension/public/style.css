@@ -1,0 +1,261 @@
+:root {
+  color-scheme: light dark;
+  font:
+    14px/1.5 system-ui,
+    -apple-system,
+    'Segoe UI',
+    'Microsoft YaHei',
+    sans-serif;
+  color: #27352f;
+  background: #f7f8f5;
+  --surface: #fff;
+  --border: #dce3dd;
+  --muted: #65756b;
+  --accent: #176858;
+  --soft: #eef4ef;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+.popup {
+  width: 390px;
+  min-height: 420px;
+  max-height: 600px;
+  overflow: auto;
+}
+.options {
+  max-width: 780px;
+  margin: 42px auto;
+  padding: 0 24px 48px;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.app-header > div {
+  flex: 1;
+}
+h1 {
+  font-size: 19px;
+  margin: 0;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+h2 {
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+main {
+  padding: 18px 20px;
+}
+label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+input,
+select,
+button,
+.button {
+  font: inherit;
+}
+input:not([type='checkbox']),
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: inherit;
+  border-radius: 8px;
+  padding: 9px 10px;
+  min-height: 40px;
+}
+input:focus,
+select:focus,
+button:focus-visible,
+.button:focus-visible {
+  outline: 2px solid #58b49c;
+  outline-offset: 2px;
+}
+.columns {
+  display: flex;
+  gap: 12px;
+  margin: 14px 0;
+}
+.columns > div {
+  flex: 1;
+  min-width: 0;
+}
+.columns > button {
+  white-space: nowrap;
+}
+button,
+.button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: inherit;
+  padding: 9px 13px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+[hidden] { display: none !important; }
+button:hover:not(:disabled) {
+  background: var(--soft);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.primary:hover:not(:disabled) {
+  background: #125545;
+}
+.quiet {
+  border: 0;
+  background: none;
+  padding: 6px;
+}
+.actions {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 10px 0;
+  font-size: 12px;
+}
+.check input {
+  accent-color: var(--accent);
+}
+[hidden] {
+  display: none !important;
+}
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 18px 0 8px;
+}
+.tree {
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.tree:empty {
+  display: none;
+}
+.tree-row {
+  display: flex;
+  padding: 2px 4px;
+  gap: 2px;
+}
+.tree-toggle {
+  border: 0;
+  background: none;
+  width: 28px;
+  padding: 3px;
+}
+.tree-select {
+  border: 0;
+  text-align: left;
+  background: none;
+  padding: 5px 8px;
+  flex: 1;
+}
+.tree-select.selected {
+  background: var(--soft);
+  color: var(--accent);
+}
+.tree-children {
+  margin-left: 20px;
+}
+.tree .hint {
+  display: block;
+  padding: 8px;
+}
+.job {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.job strong {
+  display: block;
+  font-weight: 600;
+}
+.job button {
+  padding: 3px 9px;
+  font-size: 12px;
+  margin: 6px 6px 0 0;
+}
+.job .error {
+  color: #b84040;
+}
+.card {
+  background: var(--surface);
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+.options main {
+  padding: 24px 0;
+}
+.options p {
+  line-height: 1.8;
+}
+#message {
+  font-size: 12px;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    background: #171e1b;
+    color: #e0e9e3;
+    --surface: #222d27;
+    --border: #37463d;
+    --muted: #9cafa3;
+    --accent: #54b899;
+    --soft: #2b4237;
+  }
+  .primary {
+    color: #10271e;
+  }
+  .primary:hover:not(:disabled) {
+    background: #6dcaaa;
+  }
+  .job .error {
+    color: #f28f8f;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+}

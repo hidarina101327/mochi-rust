@@ -1,0 +1,65 @@
+{
+  "format": "mochi-base",
+  "version": 1,
+  "activeTableId": "table_main",
+  "extension": { "preserved": true },
+  "tables": [
+    {
+      "id": "table_main",
+      "name": "数据表",
+      "activeViewId": "view_grid",
+      "extension": "table",
+      "fields": [
+        { "id": "name", "name": "名称", "type": "text", "width": 220, "extension": "field" },
+        { "id": "amount", "name": "数值", "type": "number" },
+        {
+          "id": "group", "name": "分组", "type": "singleSelect",
+          "options": [
+            { "id": "option_a", "label": "分组甲", "color": "green", "extension": "option" },
+            { "id": "option_b", "label": "分组乙", "color": "red" }
+          ]
+        },
+        {
+          "id": "tags", "name": "标签", "type": "multiSelect",
+          "options": [
+            { "id": "tag_a", "label": "标签甲", "color": "blue" },
+            { "id": "tag_b", "label": "标签乙", "color": "purple" }
+          ]
+        },
+        { "id": "day", "name": "日期", "type": "date" },
+        { "id": "checked", "name": "勾选", "type": "checkbox" },
+        { "id": "link", "name": "链接", "type": "url" },
+        { "id": "progress", "name": "进度", "type": "progress" },
+        { "id": "time_point", "name": "时间点", "type": "dateTime" },
+        { "id": "time_range", "name": "时间段", "type": "dateRange" }
+      ],
+      "records": [
+        {
+          "id": "record_a",
+          "extension": "record",
+          "values": { "name": "Alpha", "amount": 10, "group": "option_a", "tags": ["tag_a"], "day": "2024-02-29", "checked": false, "link": "https://example.org", "progress": 75.5, "time_point": "2026-09-11T09:30", "time_range": ["2026-09-11T09:30", "2026-09-11T18:00"] }
+        },
+        {
+          "id": "record_b",
+          "values": { "name": "Beta", "amount": 2, "group": "option_b", "tags": ["tag_b", "tag_a"], "day": "2026-09-11", "checked": true, "link": "", "progress": 100, "time_point": "2026-09-12T08:00", "time_range": ["2026-09-12T08:00", "2026-09-13T12:00"] }
+        },
+        {
+          "id": "record_c",
+          "values": { "name": "alpha", "amount": 2, "group": null, "tags": [], "day": null, "checked": true, "progress": 0, "time_point": null, "time_range": null }
+        },
+        { "id": "record_empty", "values": {} }
+      ],
+      "views": [
+        { "id": "view_grid", "name": "表格视图", "type": "grid", "sorts": [{ "fieldId": "amount", "direction": "asc", "extension": "sort" }], "filters": [], "extension": "view" },
+        { "id": "view_board", "name": "看板视图", "type": "board", "groupBy": "group", "sorts": [], "filters": [{ "fieldId": "tags", "operator": "equals", "value": "tag_a", "extension": "filter" }] },
+        { "id": "view_empty", "name": "空值筛选", "type": "grid", "sorts": [], "filters": [{ "fieldId": "day", "operator": "equals", "value": null }] }
+      ]
+    },
+    {
+      "id": "table_secondary", "name": "数据表 2",
+      "fields": [{ "id": "name", "name": "名称", "type": "text" }],
+      "records": [],
+      "views": [{ "id": "view_grid", "name": "表格视图", "type": "grid", "sorts": [], "filters": [] }]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "manifestVersion": 2,
+  "id": "quick-navigation",
+  "name": "快捷导航",
+  "version": "2.0.0",
+  "description": "原生快捷方式、网页和文件导航管理。",
+  "icon": "LayoutGrid",
+  "permissions": ["plugin-storage", "shell-launch", "workspace-read", "ai-read", "ai-write"],
+  "contributions": {
+    "navigation": true,
+    "commands": ["新建快捷方式", "扫描快捷方式"],
+    "tools": "tools.json",
+    "ui": "ui.json",
+    "slots": [
+      { "slot": "navigation", "title": "快捷导航", "icon": "LayoutGrid" },
+      { "slot": "right-sidebar", "title": "快捷面板", "icon": "LayoutGrid" },
+      { "slot": "editor-toolbar", "title": "插入快捷方式", "icon": "LayoutGrid" }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+[package]
+name = "mochi-core"
+description = "墨池核心服务层：工作区/文件/Git/索引搜索（无 UI 依赖，与 Electron 版工作区格式互通）"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+anyhow.workspace = true
+mochi-blocks = { path = "../mochi-blocks", default-features = false }
+git2 = { version = "0.21.0", default-features = false }
+regex = "1.13.1"
+url = "2.5.8"
+rusqlite = { version = "0.40.2", features = ["bundled"] }
+notify = "8.2.0"
+ureq = { version = "3.4.0", default-features = false, features = ["json", "native-tls"] }
+calamine = "0.36.1"
+rust_xlsxwriter = { version = "0.99.1", features = ["chrono"] }
+pulldown-cmark = "0.13.4"
+flate2 = "1.1.10"
+base64 = "=0.23.1"
+zip = { version = "7.0.0", default-features = false, features = ["deflate"] }
+sha2 = "=0.11.0"
+
+[target."cfg(windows)".dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Globalization", "Win32_Foundation", "Win32_Security_Cryptography", "Win32_Security_Authorization", "Win32_Storage_FileSystem", "Win32_System_Pipes", "Win32_System_IO", "Win32_System_JobObjects", "Win32_System_Threading"] }

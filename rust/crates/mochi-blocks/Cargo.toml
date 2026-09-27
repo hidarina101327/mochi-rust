@@ -1,0 +1,30 @@
+[package]
+name = "mochi-blocks"
+description = "Stable document blocks, references and approval primitives"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[features]
+default = []
+sync = ["dep:git2"]
+retrieval = ["dep:rusqlite", "dep:ureq", "dep:sqlite-vec"]
+
+[lints]
+workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+pulldown-cmark = "0.13.4"
+sha2 = "=0.11.0"
+getrandom = "0.4"
+git2 = { version = "0.21.0", default-features = false, optional = true }
+rusqlite = { version = "0.40.2", features = ["bundled"], optional = true }
+ureq = { version = "3.4.0", default-features = false, features = ["json", "native-tls"], optional = true }
+sqlite-vec = { version = "=0.1.9", optional = true }
+
+[dev-dependencies]
+tempfile = "3"

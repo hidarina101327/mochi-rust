@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mochi Workflow v1",
+  "type": "object",
+  "required": ["format", "schema_version", "id", "name", "nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "format": {"const": "mochi.workflow"},
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$"},
+    "name": {"type": "string", "minLength": 1},
+    "description": {"type": "string"},
+    "trigger": {
+      "oneOf": [
+        {"type": "object", "required": ["type"], "properties": {"type": {"const": "manual"}}, "additionalProperties": false},
+        {"type": "object", "required": ["type", "minutes"], "properties": {"type": {"const": "interval"}, "minutes": {"type": "integer", "minimum": 1, "maximum": 525600}}, "additionalProperties": false},
+        {"type": "object", "required": ["type", "time"], "properties": {"type": {"const": "daily"}, "time": {"type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"}, "utc_offset_minutes": {"type": "integer", "minimum": -720, "maximum": 840}}, "additionalProperties": false},
+        {"type": "object", "required": ["type", "time", "weekdays"], "properties": {"type": {"const": "weekly"}, "time": {"type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"}, "utc_offset_minutes": {"type": "integer", "minimum": -720, "maximum": 840}, "weekdays": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1, "maximum": 7}}}, "additionalProperties": false}
+      ]
+    },
+    "input_schema": {"type": "object"},
+    "defaults": {"type": "object"},
+    "nodes": {"type": "array", "minItems": 2, "maxItems": 100, "items": {"$ref": "#/$defs/node"}},
+    "edges": {"type": "array", "maxItems": 300, "items": {"$ref": "#/$defs/edge"}}
+  },
+  "$defs": {
+    "node": {
+      "type": "object", "required": ["id", "type", "label"], "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$"},
+        "type": {"enum": ["start", "end", "http", "ai", "file_read", "file_write", "document_append", "folder_list", "object_read", "schedule_write", "base_write", "tool", "script", "json", "condition", "chart", "notify"]},
+        "label": {"type": "string"},
+        "position": {"type": "object", "required": ["x", "y"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}}},
+        "inputs": {"type": "object"}, "config": {"type": "object"},
+        "enabled": {"type": "boolean", "default": true},
+        "on_error": {"enum": ["stop", "continue"], "default": "stop"},
+        "retries": {"type": "integer", "minimum": 0, "maximum": 3, "default": 0},
+        "timeout_ms": {"type": "integer", "minimum": 1000, "maximum": 300000, "default": 60000},
+        "for_each": {"type": ["string", "null"]}
+      }
+    },
+    "edge": {
+      "type": "object", "required": ["id", "source", "target"], "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$"},
+        "source": {"type": "string"}, "target": {"type": "string"},
+        "sourceHandle": {"enum": ["true", "false", null]}
+      }
+    }
+  }
+}
